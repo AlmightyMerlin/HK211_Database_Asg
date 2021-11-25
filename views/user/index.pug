@@ -1,0 +1,135 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ NGƯỜI DÙNG
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addUserModal')
+										| Thêm mới
+									// Modal
+									#addUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/user/add", method="post")
+													.modal-body
+														.form-group
+															label CMND
+															input.form-control(type='text' placeholder='CMND' name='cmnd')
+														.form-group
+															label Họ và tên
+															input.form-control(type='text' placeholder='Họ và tên' name='ho_ten')
+														.form-group
+															.row.mt-5
+																.col-md-2
+																	label Giới tính:
+																.col-md-3
+																	.form-check 
+																		input.form-check-input(type="radio", name="gioi_tinh", value='1' checked)
+																		label Nam
+																.col-md-5
+																	.form-check 
+																		input.form-check-input(type="radio", name="gioi_tinh", value='0')
+																		label Nữ
+														.form-group
+															label Email
+															input.form-control(type='text' placeholder='Email' name='email')
+														.form-group
+															label Địa chỉ
+															input.form-control(type='text' placeholder='Địa chỉ' name='dia_chi')
+														.form-group
+															label Ngày sinh
+															input.form-control(type='date' name='ngay_sinh')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-user.table.table-bordered.table-striped
+										thead
+											tr
+												th CMND
+												th Họ và tên
+												th Giới tính
+												th Email
+												th Địa chỉ
+												th Ngày sinh
+												th Thao tác
+										tbody
+											each user in userList 
+												tr 
+													td=user.CMND
+													td=user.HO_TEN
+													td=user.GIOI_TINH=="0"? "Nữ" : "Nam"
+													td=user.EMAIL
+													td=user.DIA_CHI
+													script.
+														console.log();
+													td=moment(user.NGAY_SINH).format('DD/MM/YYYY')
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-cmnd=user.CMND, data-ho_ten=user.HO_TEN, data-gioi_tinh=user.GIOI_TINH data-email=user.EMAIL data-dia_chi=user.DIA_CHI data-ngay_sinh=user.NGAY_SINH) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-cmnd=user.CMND)
+															i.fas.fa-trash 
+
+									#editUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/user/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='cmnd')
+														.form-group
+															label Họ và tên
+															input.form-control(type='text' placeholder='Họ và tên' name='ho_ten')
+														.form-group
+															label Giới tính:
+															select.form-control(name='gioi_tinh')
+																option(value="1") Nam
+																option(value="0") Nữ
+														.form-group
+															label Email
+															input.form-control(type='text' placeholder='Email' name='email')
+														.form-group
+															label Địa chỉ
+															input.form-control(type='text' placeholder='Địa chỉ' name='dia_chi')
+														.form-group
+															label Ngày sinh
+															input.form-control(type='text' name='ngay_sinh')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/user/delete", method="post")
+													.modal-body
+														input(type="hidden", name="cmnd")
+														p Bạn có chắc chắn muốn xóa người dùng này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script 
+	script(src="/js/user/index.js") 

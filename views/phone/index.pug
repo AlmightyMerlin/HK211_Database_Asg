@@ -1,0 +1,90 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ SỐ ĐIỆN THOẠI
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addPhoneModal')
+										| Thêm mới
+									// Modal
+									#addPhoneModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addPhoneModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/phone/add", method="post")
+													.modal-body
+														.form-group
+															label CMND
+															input.form-control(type='text' placeholder='CMND' name='cmnd')
+														.form-group
+															label Số điện thoại
+															input.form-control(type='text' placeholder='Số điện thoại' name='so_dien_thoai')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-phone.table.table-bordered.table-striped
+										thead
+											tr
+												th CMND
+												th Số điện thoại
+												th Thao tác
+										tbody
+											each phone in phoneList 
+												tr 
+													td=phone.CMND
+													td=phone.SO_DIEN_THOAI
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-cmnd=phone.CMND, data-so_dien_thoai=phone.SO_DIEN_THOAI) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-cmnd=phone.CMND)
+															i.fas.fa-trash 
+
+									#editPhoneModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editPhoneModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/phone/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='cmnd')
+														.form-group
+															label Số điện thoại
+															input.form-control(type='text' placeholder='Số điện thoại' name='so_dien_thoai')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deletePhoneModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deletePhoneModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/phone/delete", method="post")
+													.modal-body
+														input(type="hidden", name="cmnd")
+														p Bạn có chắc chắn muốn xóa số điện thoại này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script 
+	script(src="/js/user/index.js") 
