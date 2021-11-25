@@ -44,12 +44,13 @@ router.post("/delete", async function (req, res) {
     var cmnd = req.body.cmnd;
 
     try {
-        await userModel.deleteOne(cmnd);
+        await phoneModel.deleteOne(cmnd);
     } catch (err) {
+        console.log(err);
         return res.redirect("/500");
     }
 
-    return res.redirect("/user");
+    return res.redirect("/phone");
 });
 
 module.exports = router;

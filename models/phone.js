@@ -24,9 +24,9 @@ exports.insertOne = async function (cmnd, so_dien_thoai) {
     );
 };
 
-exports.updateOne = async function (cmnd, ho_ten, gioi_tinh, email, dia_chi, ngay_sinh) {
+exports.updateOne = async function (cmnd, so_dien_thoai) {
     await connection.awaitQuery(
-        `UPDATE SODIENTHOAI SET CMND = ${cmnd}, SO_DIEN_THOAI = "${so_dien_thoai}" WHERE CMND = ${cmnd}`
+        `UPDATE SODIENTHOAI SET SO_DIEN_THOAI = "${so_dien_thoai}" WHERE CMND = ${cmnd}`
     );
 };
 
