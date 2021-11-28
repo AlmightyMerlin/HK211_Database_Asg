@@ -15,6 +15,11 @@ $("#tab-phone").DataTable({
     // ],
 });
 
+$("#select-cmnd").select2({
+	theme: "bootstrap4",
+	placeholder: "Chọn số cmnd của người dùng",
+});
+
 $(".btn-edit").click(function (e) {
     var cmnd = $(this).data("cmnd");
     var so_dien_thoai = $(this).data("so_dien_thoai");

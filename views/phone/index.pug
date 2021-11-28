@@ -28,7 +28,10 @@ block content
 													.modal-body
 														.form-group
 															label CMND
-															input.form-control(type='text' placeholder='CMND' name='cmnd')
+															select#select-cmnd.form-control.select2(name='cmnd')
+																option
+																each user in userList
+																	option(value=user.CMND)=user.CMND
 														.form-group
 															label Số điện thoại
 															input.form-control(type='text' placeholder='Số điện thoại' name='so_dien_thoai')
@@ -85,6 +88,10 @@ block content
 													.modal-footer
 														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
 														button.btn.btn-outline-light(type='submit') Xác nhận
-
 block script 
+	script(src="/plugins/select2/js/select2.full.min.js")
 	script(src="/js/phone/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+	

@@ -1,12 +1,16 @@
 var express = require("express");
 var router = express.Router();
 var phoneModel = require("../models/phone");
+var userModel = require("../models/user");
 var moment = require('moment');
+
 
 router.get("/", async function (req, res) {
     let phoneList = await phoneModel.getAll();
+    let userList = await userModel.getAll();
     var viewBag = {
         phoneList: phoneList,
+        userList: userList,
     };
     res.render("phone/index", viewBag);
 });
