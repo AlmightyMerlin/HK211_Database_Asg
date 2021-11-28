@@ -17,7 +17,7 @@ block content
 									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addPhoneModal')
 										| Thêm mới
 									// Modal
-									#addPhoneModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addPhoneModal' aria-hidden='true')
+									#addPhoneModal.modal.fade(role='dialog' aria-labelledby='addPhoneModal' aria-hidden='true')
 										.modal-dialog(role='document')
 											.modal-content
 												.modal-header
@@ -28,7 +28,7 @@ block content
 													.modal-body
 														.form-group
 															label CMND
-															select#select-cmnd.form-control.select2(name='cmnd')
+															select#select-cmnd.form-control.select2(name='cmnd' style="width: 100%;")
 																option
 																each user in userList
 																	option(value=user.CMND)=user.CMND
