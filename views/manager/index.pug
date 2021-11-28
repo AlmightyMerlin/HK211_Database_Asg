@@ -1,0 +1,102 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ NHÂN VIÊN QUẢN LÝ
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addManagerModal')
+										| Thêm mới
+									// Modal
+									#addManagerModal.modal.fade(role='dialog' aria-labelledby='addManagerModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/manager/add", method="post")
+													.modal-body
+														.form-group
+															label MSNV
+															input.form-control(type='text' placeholder='Mã số nhân viên' name='msnv')
+														.form-group
+															label Mã chi nhánh
+															input.form-control(type='text' placeholder='Mã chi nhánh' name='ma_chi_nhanh')
+														.form-group
+															label Ngày bắt đầu
+															input.form-control(type='date' name='ngay_bat_dau')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-manager.table.table-bordered.table-striped
+										thead
+											tr
+												th MSNV
+												th Mã chi nhánh
+												th Ngày bắt đầu
+												th Thao tác
+										tbody
+											each manager in managerList 
+												tr 
+													td=manager.MSNV
+													td=manager.MA_CHI_NHANH
+													td=moment(manager.NGAY_BAT_DAU).format('DD/MM/YYYY')
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-msnv=manager.MSNV, data-ma_chi_nhanh=manager.MA_CHI_NHANH, data-ngay_bat_dau=manager.NGAY_BAT_DAU) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-msnv=manager.MSNV)
+															i.fas.fa-trash 
+
+									#editManagerModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editManagerModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/manager/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='msnv')
+														.form-group
+															label Mã chi nhánh
+															input.form-control(type='text' placeholder='Mã chi nhánh' name='ma_chi_nhanh')
+														.form-group
+															label Ngày bắt đầu
+															input.form-control(type='date' name='ngay_bat_dau')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteManagerModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteManagerModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/manager/delete", method="post")
+													.modal-body
+														input(type="hidden", name="msnv")
+														p Bạn có chắc chắn muốn xóa người này khỏi danh sách quản lý?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+block script 
+	script(src="/plugins/select2/js/select2.full.min.js")
+	script(src="/js/manager/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+	
