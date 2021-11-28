@@ -5,6 +5,8 @@ var homeController = require('./controllers/home');
 var facultyController = require("./controllers/faculty");
 var userController = require("./controllers/user");
 var phoneController = require("./controllers/phone");
+var promotionController = require("./controllers/promotion")
+var staffController = require("./controllers/staff")
 var moment = require('moment');
 app.locals.moment = moment
 
@@ -23,6 +25,8 @@ app.use("/", homeController);
 app.use("/faculty", facultyController);
 app.use("/user", userController);
 app.use("/phone", phoneController);
+app.use("/promotion", promotionController);
+app.use("/staff",staffController)
 
 app.listen(5000, function() {
     console.log("Server is listening on port 5000!");
