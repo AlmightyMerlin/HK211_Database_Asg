@@ -1,0 +1,106 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ THẺ
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addCardModal')
+										| Thêm mới
+									// Modal
+									#addCardModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addCardModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/card/add", method="post")
+													.modal-body
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														.form-group
+															label Điểm thưởng
+															input.form-control(type='text' placeholder='Điểm thưởng' name='diem_thuong')
+														.form-group
+															label Cấp bậc thẻ
+															input.form-control(type='text' placeholder='Cấp bậc thẻ' name='cap_bac_the')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-card.table.table-bordered.table-striped
+										thead
+											tr
+												th Mã số thẻ
+												th Điểm thưởng
+												th Cấp bậc thẻ
+												th Thao tác
+										tbody
+											each card in cardList 
+												tr 
+													td=card.MA_SO_THE
+													td=card.DIEM_THUONG
+													td=card.CAP_BAC_THE
+													
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-ma_so_the=card.MA_SO_THE, data-diem_thuong=card.DIEM_THUONG, data-cap_bac_the=card.CAP_BAC_THE) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-ma_so_the=card.MA_SO_THE)
+															i.fas.fa-trash 
+
+									#editCardModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editCardModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/card/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='cmnd')
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														.form-group
+															label Điểm thưởng
+															input.form-control(type='text' placeholder='Điểm thưởng' name='diem_thuong')
+														.form-group
+															label Cấp bậc thẻ
+															input.form-control(type='text' placeholder='Cấp bậc thẻ' name='cap_bac_the')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteCardModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteCardModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/card/delete", method="post")
+													.modal-body
+														input(type="hidden", name="cmnd")
+														p Bạn có chắc chắn muốn xóa thẻ này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script
+	script(src="/plugins/select2/js/select2.full.min.js")
+	script(src="/js/card/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
