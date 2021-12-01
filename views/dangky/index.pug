@@ -1,0 +1,111 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ ĐĂNG KÝ
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addDangkyModal')
+										| Thêm mới
+									// Modal
+									#addDangkyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addDangkyModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/dangky/add", method="post")
+													.modal-body
+														.form-group
+															label MSNV
+															input.form-control(type='text' placeholder='MSNV' name='msnv')
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														
+														.form-group
+															label MSKH
+															input.form-control(type='text' placeholder='Mã số khách hàng' name='ma_so_khach_hang')
+														.form-group
+															label Ngày đăng ký
+															input.form-control(type='date' name='ngay_dang_ky')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-dangky.table.table-bordered.table-striped
+										thead
+											tr
+												th MSNV 
+												th Mã số thẻ
+												th MSKH 
+												th Ngày đăng ký
+												th Thao tác
+										tbody
+											each dangky in dangkyList 
+												tr 
+													td=dangky.MSNV
+													td=dangky.MA_SO_THE
+													td=dangky.MSKH
+													script.
+														console.log();
+													td=moment(dangky.NGAY_DANG_KY).format('DD/MM/YYYY')
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-msnv=dangky.MSNV, data-ma_so_the=dangky.MA_SO_THE, data-mskh=dangky.MSKH, data-ngay_dang_ky=dangky.NGAY_DANG_KY) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-msnv=dangky.CMND)
+															i.fas.fa-trash 
+
+									#editDangkyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editDangkyModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/dangky/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='msnv')
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														
+														.form-group
+															label MSKH
+															input.form-control(type='text' placeholder='MSKH' name='ma_so_khach_hang')
+														
+														.form-group
+															label Ngày đăng ký
+															input.form-control(type='date' name='ngay_dang_ky')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteDangkyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteDangkyModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/dangky/delete", method="post")
+													.modal-body
+														input(type="hidden", name="msnv")
+														p Bạn có chắc chắn muốn xóa đăng ký này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script 
+	script(src="/js/dangky/index.js") 
