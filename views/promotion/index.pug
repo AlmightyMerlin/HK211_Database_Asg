@@ -1,0 +1,111 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ KHUYẾN MÃI
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addPromotionModal')
+										| Thêm mới
+									// Modal
+									#addPromotionModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addPromotionModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/promotion/add", method="post")
+													.modal-body
+														.form-group
+															label Mã khuyến mãi
+															input.form-control(type='text' placeholder='Mã khuyến mãi' name='ma_khuyen_mai')
+														.form-group
+															label Tên khuyến mãi
+															input.form-control(type='text' placeholder='Tên khuyến mãi' name='ten_khuyen_mai')
+														.form-group
+															label Ngày áp dụng
+															input.form-control(type='date' name='ngay_ap_dung')
+														.form-group
+															label Ngày hết hạn
+															input.form-control(type='date' name='ngay_het_han')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-promotion.table.table-bordered.table-striped
+										thead
+											tr
+												th Mã khuyến mãi
+												th Tên khuyến mãi 
+												th Ngày áp dụng 
+												th Ngày hết hạn
+												th Thao tác
+										tbody
+											each promotion in promotionList 
+												tr 
+													td=promotion.MA_KHUYEN_MAI
+													td=promotion.TEN_KHUYEN_MAI
+													script.
+														console.log();
+													td=moment(promotion.NGAY_AP_DUNG).format('YYYY-MM-DD')
+													script.
+														console.log();
+													td=moment(promotion.NGAY_HET_HAN).format('YYYY-MM-DD')
+													
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-ma_khuyen_mai=promotion.MA_KHUYEN_MAI,data-ten_khuyen_mai=promotion.TEN_KHUYEN_MAI, data-ngay_ap_dung=promotion.NGAY_AP_DUNG, data-ngay_het_han=promotion.NGAY_HET_HAN) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-ma_khuyen_mai=promotion.MA_KHUYEN_MAI)
+															i.fas.fa-trash 
+
+									#editPromotionModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editPromotionModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/promotion/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='ma_khuyen_mai')
+														.form-group
+															label Tên khuyến mãi
+															input.form-control(type='text' placeholder='Tên khuyến mãi' name='ten_khuyen_mai')
+														.form-group
+															label Ngày áp dụng
+															input.form-control(type='text' name='ngay_ap_dung')
+														.form-group
+															label Ngày hết hạn
+															input.form-control(type='text' name='ngay_het_han')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deletePromotionModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deletePromotionModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/promotion/delete", method="post")
+													.modal-body
+														input(type="hidden", name="ma_khuyen_mai")
+														p Bạn có chắc chắn muốn xóa khuyến mãi này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script 
+	script(src="/js/promotion/index.js") 
