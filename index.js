@@ -3,6 +3,7 @@ var app = express();
 
 var homeController = require('./controllers/home');
 var branchController = require("./controllers/branch");
+var ownController = require("./controllers/own");
 var userController = require("./controllers/user");
 var phoneController = require("./controllers/phone");
 var moment = require('moment');
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use("/", homeController);
 app.use("/branch", branchController);
+app.use("/own", ownController);
 app.use("/user", userController);
 app.use("/phone", phoneController);
 

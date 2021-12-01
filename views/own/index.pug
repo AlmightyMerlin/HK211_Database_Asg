@@ -1,0 +1,102 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ SỞ HỮU
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addOwnModal')
+										| Thêm mới
+									// Modal
+									#addBranchModal.modal.fade(role='dialog' aria-labelledby='addOwnModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/own/add", method="post")
+													.modal-body
+														.form-group
+															label Mã số khách hàng
+															input.form-control(type='text' placeholder='Mã số khách hàng' name='mskh')
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														.form-group
+															label Ngày đăng ký
+															input.form-control(type='text' placeholder='Ngày đăng ký' name='ngay_dang_ky')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-own.table.table-bordered.table-striped
+										thead
+											tr
+												th Mã số khách hàng
+												th Mã số thẻ
+												th Ngày đăng ký
+												th Thao tác
+										tbody
+											each own in ownList 
+												tr 
+													td=own.MSKH
+													td=own.MA_SO_THE
+													td=own.NGAY_DANG_KY
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-mskh=own.MSKH, data-ma_so_the=own.MA_SO_THE, data-ngay_dang_ky=own.NGAY_DANG_KY) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-mskh=own.MSKH)
+															i.fas.fa-trash 
+
+									#editOwnModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editOwnModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/own/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='mskh')
+														.form-group
+															label Mã số thẻ
+															input.form-control(type='text' placeholder='Mã số thẻ' name='ma_so_the')
+														.form-group
+															label Ngày đăng ký
+															input.form-control(type='text' placeholder='Ngày đăng ký' name='ngay_dang_ky')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteOwnModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteOwnModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/own/delete", method="post")
+													.modal-body
+														input(type="hidden", name="mskh")
+														p Bạn có chắc chắn muốn xóa khách hàng này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+block script 
+	script(src="/plugins/select2/js/select2.full.min.js")
+	script(src="/js/own/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+	
