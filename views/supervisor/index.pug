@@ -1,0 +1,69 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ NGƯỜI GIÁM SÁT
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addSupervisorModal')
+										| Thêm mới
+									// Modal
+									#addSupervisorModal.modal.fade(role='dialog' aria-labelledby='addSupervisorModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/supervisor/add", method="post")
+													.modal-body
+														.form-group
+															label Mã người giám sát
+															input.form-control(type='text' placeholder='Mã người giám sát' name='ma_nguoi_giam_sat')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-supervisor.table.table-bordered.table-striped
+										thead
+											tr
+												th Mã người giám sát
+												td Thao tác
+										tbody
+											each supervisor in supervisorList 
+												tr 
+													td=supervisor.MA_NGUOI_GIAM_SAT
+													td.text-center
+														btn.btn-delete.btn.btn-danger.btn-xs(data-ma_nguoi_giam_sat=supervisor.MA_NGUOI_GIAM_SAT)
+															i.fas.fa-trash
+									#deleteSupervisorModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteSupervisorModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/supervisor/delete", method="post")
+													.modal-body
+														input(type="hidden", name="ma_nguoi_giam_sat")
+														p Bạn có chắc chắn muốn xóa người dùng này khỏi những người giám sát không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+block script 
+	script(src="/plugins/select2/js/select2.full.min.js")
+	script(src="/js/supervisor/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+	
