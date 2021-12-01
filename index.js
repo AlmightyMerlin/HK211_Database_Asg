@@ -1,7 +1,6 @@
 var express = require("express");
 var app = express();
 
-var homeController = require('./controllers/home');
 var branchController = require("./controllers/branch");
 var userController = require("./controllers/user");
 var phoneController = require("./controllers/phone");
@@ -25,7 +24,7 @@ app.use(
 app.use(express.json());
 
 
-app.use("/", homeController);
+app.use("/", userController);
 app.use("/user", userController);
 app.use("/phone", phoneController);
 app.use("/manager", managerController);
