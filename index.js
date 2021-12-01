@@ -2,7 +2,6 @@ var express = require("express");
 var app = express();
 
 var homeController = require('./controllers/home');
-var facultyController = require("./controllers/faculty");
 var userController = require("./controllers/user");
 var phoneController = require("./controllers/phone");
 var managerController = require("./controllers/manager");
@@ -22,7 +21,6 @@ app.use(express.json());
 
 
 app.use("/", homeController);
-app.use("/faculty", facultyController);
 app.use("/user", userController);
 app.use("/phone", phoneController);
 app.use("/manager", managerController);
