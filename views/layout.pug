@@ -3,7 +3,7 @@ html(lang='en')
 	head
 		meta(charset='utf-8')
 		meta(name='viewport' content='width=device-width, initial-scale=1')
-		title AdminLTE 3 | DataTables
+		title Supermarket MVC
 		// Google Font: Source Sans Pro
 		link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')
 		// Font Awesome
@@ -30,7 +30,7 @@ html(lang='en')
 				// Brand Logo
 				a.brand-link(href='/index3.html')
 					img.brand-image.img-circle.elevation-3(src='/dist/img/AdminLTELogo.png' alt='AdminLTE Logo' style='opacity: .8')
-					span.brand-text.font-weight-light BK Mananger
+					span.brand-text.font-weight-bold Supermarket MVC
 				// Sidebar
 				.sidebar
 					// Sidebar Menu
@@ -41,9 +41,17 @@ html(lang='en')
 									i.nav-icon.fas.fa-phone
 									p
 										| Quản lý số điện thoại
+								a.nav-link(href='/branch')
+									i.nav-icon.fas.fa-building
+									p
+										| Quản lý chi nhánh
+								a.nav-link(href='/promotion')
+									i.nav-icon.fas.fa-tags
+									p
+										| Quản lý khuyến mãi					
 							li.nav-item
 								a.nav-link(href='/#')
-									i.nav-icon.fas.fa-users
+									i.nav-icon.fas.fa-user-tag
 									p
 										| Quản lý người dùng
 										i.fas.fa-angle-left.right
@@ -53,9 +61,17 @@ html(lang='en')
 											i.far.nav-icon.fas.fa-user-tie
 											p  Nhân viên quản lý
 									li.nav-item
+										a.nav-link(href='/staff')
+											i.nav-icon.fas.fa-user
+											p Nhân viên siêu thị
+									li.nav-item
+										a.nav-link(href='/customer')
+											i.nav-icon.fas.fa-user-secret
+											p Khách hàng tham gia
+									li.nav-item
 										a.nav-link(href='/user')
-											i.far.nav-icon.fas.fa-user
-											p Người dùng tham gia
+											i.nav-icon.fas.fa-users
+											p Tất cả người dùng
 					// /.sidebar-menu
 				// /.sidebar
 			// Content Wrapper. Contains page content

@@ -1,0 +1,102 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ CHI NHÁNH
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addBranchModal')
+										| Thêm mới
+									// Modal
+									#addBranchModal.modal.fade(role='dialog' aria-labelledby='addBranchModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/branch/add", method="post")
+													.modal-body
+														.form-group
+															label Địa chỉ
+															input.form-control(type='text' placeholder='Địa chỉ' name='dia_chi')
+														.form-group
+															label Mã chi nhánh
+															input.form-control(type='text' placeholder='Mã chi nhánh' name='ma_chi_nhanh')
+														.form-group
+															label Tên chi nhánh
+															input.form-control(type='text' placeholder='Tên chi nhánh' name='ten_chi_nhanh')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-branch.table.table-bordered.table-striped
+										thead
+											tr
+												th Địa chỉ
+												th Mã chi nhánh
+												th Tên chi nhánh
+												th Thao tác
+										tbody
+											each branch in branchList 
+												tr 
+													td=branch.DIA_CHI
+													td=branch.MA_CHI_NHANH
+													td=branch.TEN_CHI_NHANH
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-dia_chi=branch.DIA_CHI, data-ma_chi_nhanh=branch.MA_CHI_NHANH, data-ten_chi_nhanh=branch.TEN_CHI_NHANH) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-ma_chi_nhanh=branch.MA_CHI_NHANH)
+															i.fas.fa-trash 
+
+									#editBranchModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editBranchModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/branch/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='ma_chi_nhanh')
+														.form-group
+															label Địa chỉ
+															input.form-control(type='text' placeholder='Địa chỉ' name='dia_chi')
+														.form-group
+															label Tên chi nhánh
+															input.form-control(type='text' placeholder='Tên chi nhánh' name='ten_chi_nhanh')
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteBranchModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteBranchModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/branch/delete", method="post")
+													.modal-body
+														input(type="hidden", name="ma_chi_nhanh")
+														p Bạn có chắc chắn muốn xóa chi nhánh này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+block script 
+	script(src="/plugins/select2/js/select2.full.min.js")
+	script(src="/js/branch/index.js") 
+block style 
+	link(rel="stylesheet", href="/plugins/select2/css/select2.min.css")
+	link(rel="stylesheet", href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")
+	

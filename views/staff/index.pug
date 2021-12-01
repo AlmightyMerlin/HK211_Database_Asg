@@ -1,0 +1,105 @@
+extends ../layout 
+
+block content 
+	section.content-header
+		.container-fluid
+			.row.mb-2
+				.col-sm-6
+					h1 QUẢN LÝ NHÂN VIÊN
+	section.content
+		.container-fluid
+			.row
+				.col-12
+					.card
+						.card-body
+							.row 
+								.col-12 
+									button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addUserModal')
+										| Thêm mới
+									// Modal
+									#addUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Thêm mới
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/staff/add", method="post")
+													.modal-body
+														.form-group
+															label CMND
+															input.form-control(type='text' placeholder='CMND' name='cmnd')
+														.form-group
+															label Mã người giám sát
+															input.form-control(type='text' placeholder='Mã người giám sát' name='ma_nguoi_giam_sat')
+														.form-group
+															label MSNV
+															input.form-control(type='text' placeholder='MSNV' name='msnv')
+														
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Thêm mới
+							.row
+								.col-12
+									table#tab-staff.table.table-bordered.table-striped
+										thead
+											tr
+												th CMND
+												th Mã người giám sát 
+												th MSNV
+										tbody
+											each staff in staffList 
+												tr 
+													td=staff.CMND
+													td=staff.MA_NGUOI_GIAM_SAT
+													td=staff.MSNV
+												
+												
+													td.text-center
+														btn.btn-edit.btn.btn-primary.btn-xs(style="margin-right: 5px;", data-cmnd=staff.CMND, data-ma_nguoi_giam_sat=staff.MA_NGUOI_GIAM_SAT, data-msnv=staff.MSNV) 
+															i.fas.fa-edit
+														btn.btn-delete.btn.btn-danger.btn-xs(data-cmnd=staff.CMND)
+															i.fas.fa-trash 
+
+									#editUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='editUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content
+												.modal-header
+													h5.modal-title Chỉnh sửa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/staff/edit", method="post")
+													.modal-body
+														input.form-control(type='hidden' name='cmnd')
+														.form-group
+															label Họ và tên
+															input.form-control(type='text' placeholder='Họ và tên' name='ho_ten')
+														
+														.form-group
+															label Mã người giám sát
+															input.form-control(type='text' placeholder='Mã người giám sát' name='ma_nguoi_giam_sat')
+														.form-group
+															label MSNV
+															input.form-control(type='text' placeholder='MSNV' name='msnv')
+														
+													.modal-footer
+														button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-primary(type='submit') Cập nhật
+
+									#deleteUserModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteUserModal' aria-hidden='true')
+										.modal-dialog(role='document')
+											.modal-content.bg-danger
+												.modal-header
+													h5.modal-title Xóa
+													button.close(type='button' data-dismiss='modal' aria-label='Close')
+														span(aria-hidden='true') &times;
+												form(action="/staff/delete", method="post")
+													.modal-body
+														input(type="hidden", name="cmnd")
+														p Bạn có chắc chắn muốn xóa người dùng này không?
+													.modal-footer
+														button.btn.btn-outline-light(type='button' data-dismiss='modal') Đóng lại
+														button.btn.btn-outline-light(type='submit') Xác nhận
+
+block script 
+	script(src="/js/staff/index.js") 

@@ -2,14 +2,11 @@ var express = require("express");
 var app = express();
 
 var homeController = require('./controllers/home');
-var branchController = require("./controllers/branch");
+var facultyController = require("./controllers/faculty");
 var userController = require("./controllers/user");
 var phoneController = require("./controllers/phone");
-var managerController = require("./controllers/manager");
-var customerController = require("./controllers/customer");
 var promotionController = require("./controllers/promotion")
 var staffController = require("./controllers/staff")
-
 var moment = require('moment');
 app.locals.moment = moment
 
@@ -25,14 +22,11 @@ app.use(express.json());
 
 
 app.use("/", homeController);
+app.use("/faculty", facultyController);
 app.use("/user", userController);
 app.use("/phone", phoneController);
-app.use("/manager", managerController);
-app.use("/branch", branchController);
-app.use("/customer", customerController);
 app.use("/promotion", promotionController);
 app.use("/staff",staffController)
-
 
 app.listen(5000, function() {
     console.log("Server is listening on port 5000!");
